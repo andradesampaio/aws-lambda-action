@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     print(os.environ['AWS_LAMBDA_LOG_STREAM_NAME'])
     print('## EVENT')
     print(event)
-    logger.info("Python for the win!")
+    logger.info("Lambda Python for the win!")
     return {
         'statusCode': 200,
         'body': json.dumps(event)
