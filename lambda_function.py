@@ -11,21 +11,22 @@ def lambda_handler(event, context):
     logger.info("Lambda Python for the win!")
     record = event['Records'][0]
     bucket = record['s3']['bucket']['name']
-    path = record['s3']['object']['key']
-    size = get_size(bucket, path)
+    key = record['s3']['object']['key']
     return {
         'statusCode': 200,
         'idClient': os.environ['ID_CLIENT'],
-        'size': size,
+        'size': check_size(bucket, key),
         'body': json.dumps(event)
     }
 
-def get_size(bucket, path):
+
+def check_size(bucket, key):
     s3 = boto3.resource('s3')
     my_bucket = s3.Bucket(bucket)
-    total_size = 0
+    mega_byte = 1024 * 1024;
+    obj = my_bucket.objects.filter(Prefix=key)
 
-    for obj in my_bucket.objects.filter(Prefix=path):
-        total_size = total_size + obj.size
-
-    return total_size
+    if obj.size > 1 * mega_byte:
+        logger.info("Objeto muito grande")
+    else:
+        logger.info("Objeto dentro do tamanho")
