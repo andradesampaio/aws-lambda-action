@@ -10,7 +10,7 @@ jobs:
       - name: Generate Zip
         run: |
           zip deployment.zip *.py
-      - name: Deploy
+      - name: default deploy
         uses: Post Run actions/lambda-action@v0.1.9
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
