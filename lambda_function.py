@@ -15,5 +15,6 @@ def lambda_handler(event, context):
     logger.info("Lambda Python for the win!")
     return {
         'statusCode': 200,
+        'idClient': os.environ['ID_CLIENT'],
         'body': json.dumps(event)
     }
