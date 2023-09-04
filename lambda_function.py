@@ -22,11 +22,11 @@ def lambda_handler(event, context):
 
 def check_size(bucket, key):
     s3 = boto3.resource('s3')
-    my_bucket = s3.Bucket(bucket)
-    mega_byte = 1024 * 1024;
-    obj = my_bucket.objects.filter(Prefix=key)
+    objeto_s3 = s3.head_object(bucket, key)
+    mega_byte = 1024 * 1024
+    tamanho_arquivo_bytes = objeto_s3['ContentLength']
 
-    if obj.size > 1 * mega_byte:
+    if tamanho_arquivo_bytes > 1 * mega_byte:
         logger.info("Objeto muito grande")
     else:
         logger.info("Objeto dentro do tamanho")
