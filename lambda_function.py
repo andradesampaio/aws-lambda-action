@@ -12,10 +12,10 @@ def lambda_handler(event, context):
     record = event['Records'][0]
     bucket = record['s3']['bucket']['name']
     key = record['s3']['object']['key']
+    check_size(bucket, key)
     return {
         'statusCode': 200,
         'idClient': os.environ['ID_CLIENT'],
-        'size': check_size(bucket, key),
         'body': json.dumps(event)
     }
 
