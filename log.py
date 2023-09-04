@@ -32,18 +32,6 @@ class Log(object):
                 'message': message
             }))
 
-        def debug(self, message):
-            logging.debug(json.dumps({
-                'client_id': self.__client_id,
-                'message': message
-            }))
-
-        def warning(self, message):
-            logging.warning(json.dumps({
-                'client_id': self.__client_id,
-                'message': message
-            }))
-
         def error(self, message):
             logging.error(json.dumps({
                 'client_id': self.__client_id,
