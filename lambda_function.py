@@ -1,18 +1,20 @@
 import json
 import os
 import boto3
+from log import Log
 
 s3 = boto3.client('s3')
 
 
 def lambda_handler(event, context):
-    print("Lambda Python for the win!")
+    logging = Log(event['headers'])
+    logging.info(f"Lambda Python for the win!")
 
     record = event['Records'][0]
     bucket = record['s3']['bucket']['name']
     key = record['s3']['object']['key']
     print(f'Request = {record}')
-    check_size(bucket, key)
+    check_size(bucket, key, logging)
 
     return {
         'statusCode': 200,
@@ -21,7 +23,8 @@ def lambda_handler(event, context):
     }
 
 
-def check_size(bucket, key):
+def check_size(bucket, key, logging):
+    logging.info(f'Verificando o tamanho do arquivo {key} no bucket {bucket}')
     objeto_s3 = s3.head_object(Bucket=bucket, Key=key)
     tamanho_arquivo_bytes = objeto_s3['ContentLength']
 
